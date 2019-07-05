@@ -1,8 +1,6 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
 
-let fileName;
-
 let canvas;
 let saveButton;
 let saveSeq = false;
@@ -26,30 +24,31 @@ function draw() {
   ellipse(width/2 + sin(frameCount/60)*width/3, noise(frameCount/60)*height, 20, 20);
 
   if (saveSeq) {
-    sendDataToElectron();
+    sendCanvasDataToElectron();
   }
 }
 
-function sendDataToElectron() {
+function sendCanvasDataToElectron() {
   const dataURL = canvas.elt.toDataURL('image/png');
-  fileName = (frameCount-startFrame) + '.png';
+  const fileName = (frameCount-startFrame) + '.png';
   const data = { dataURL, fileName };
   ipcRenderer.send('image:save', data);
   console.log(`saving image... ${fileName}`);
 }
 
 function toggleSaving() {
-  startFrame = frameCount;
   saveSeq = !saveSeq;
+  startFrame = frameCount;
   if (saveSeq) {
     saveButton.html('stop recording');
     ipcRenderer.send('folder:create'); // tell Electron to create a folder
   } else {
     saveButton.html('start recording');
-    ipcRenderer.send('video:save', { fRate }); // video conversion will start once images are ready.
+    ipcRenderer.send('video:save', { fRate }); // tell Electron to start video conversion once images are ready.
   }
 }
 
+// Electron lets p5 sketch know how conversion is going
 ipcRenderer.on('video:progress', (event, frames) => {
   console.log(`saving video... ${frames} frames converted`);
 });

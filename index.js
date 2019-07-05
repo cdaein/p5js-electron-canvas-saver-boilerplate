@@ -1,7 +1,6 @@
 const electron = require('electron');
 const { app, BrowserWindow, ipcMain, shell } = electron;
 const fs = require('fs');
-const path = require('path');
 const ffmpeg = require('fluent-ffmpeg');
 ffmpeg.setFfmpegPath(require('ffmpeg-static').path.replace('app.asar', 'app.asar.unpacked'));
 
@@ -10,7 +9,7 @@ let folderPath;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1000, // browser window width
+    width: 800, // browser window width
     height: 600, // browser window height
     resizable: false,
     webPreferences: {
@@ -18,7 +17,7 @@ function createWindow() {
     }
   });
   mainWindow.loadFile('public/index.html');
-  mainWindow.webContents.openDevTools(); // comment out when distributing app
+  // mainWindow.webContents.openDevTools();
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
@@ -29,12 +28,14 @@ app.on('closed', () => {
   app.quit();
 });
 
+// create a new folder for storing image/video files
 ipcMain.on('folder:create', () => {
   const timestamp = Date.now();
   folderPath = app.getPath('downloads') + '/canvas-saver-renders/' + timestamp;
   if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath);
 });
 
+// write image files with data received from p5 sketch
 ipcMain.on('image:save', (event, data) => {
   const { dataURL, fileName } = data;
   const base64Data = dataURL.replace(/^data:image\/png;base64,/, "");
@@ -55,8 +56,8 @@ ipcMain.on('video:save', (event, { fRate }) => {
       .size('100%')
       .on('end', () => {
         console.log('video file conversion finished.');
-        mainWindow.webContents.send('video:end');
-        shell.openItem(dir); // once finished, open folder automatically
+        mainWindow.webContents.send('video:end'); // let p5 sketch know it's done.
+        shell.openItem(folderPath); // once finished, open folder automatically
       })
       .on('error', (err) => {
         console.log(`error occured: ${err.message}`);
