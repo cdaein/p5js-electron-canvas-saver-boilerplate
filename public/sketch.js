@@ -1,21 +1,13 @@
 const electron = require('electron');
-const { ipcRenderer, remote } = electron;
-const { app, dialog } = remote;
-const fs = require('fs');
+const { ipcRenderer } = electron;
 
-let folderPath;
-let timestamp; // string
-let filePath;
+let fileName;
 
 let canvas;
 let saveButton;
 let saveSeq = false;
 let startFrame;
-const fRate = 30; // also used for video frame rate
-
-let videoOptions = {
-
-};
+const fRate = 30; // set framerate for sketch and video
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
@@ -24,8 +16,6 @@ function setup() {
   saveButton = createButton('start recording');
   saveButton.position(10, 10);
   saveButton.mousePressed(toggleSaving);
-
-  ipcRenderer.send('video:options', videoOptions);
 
   background(200, 100, 100);
 }
@@ -42,10 +32,10 @@ function draw() {
 
 function sendDataToElectron() {
   const dataURL = canvas.elt.toDataURL('image/png');
-  filePath = folderPath + '/' + (frameCount-startFrame) + '.png';
-  const data = { dataURL, filePath };
+  fileName = (frameCount-startFrame) + '.png';
+  const data = { dataURL, fileName };
   ipcRenderer.send('image:save', data);
-  console.log(`saving image... ${filePath}`);
+  console.log(`saving image... ${fileName}`);
 }
 
 function toggleSaving() {
@@ -53,13 +43,10 @@ function toggleSaving() {
   saveSeq = !saveSeq;
   if (saveSeq) {
     saveButton.html('stop recording');
-    timestamp = Date.now();
-    // create render folder automatically in Downloads
-    folderPath = app.getPath('downloads') + '/canvas-saver-renders/' + timestamp;
-    if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath);
+    ipcRenderer.send('folder:create'); // tell Electron to create a folder
   } else {
     saveButton.html('start recording');
-    ipcRenderer.send('video:save', {filePath, fRate}); // video conversion will start once images are ready.
+    ipcRenderer.send('video:save', { fRate }); // video conversion will start once images are ready.
   }
 }
 

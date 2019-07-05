@@ -6,6 +6,7 @@ const ffmpeg = require('fluent-ffmpeg');
 ffmpeg.setFfmpegPath(require('ffmpeg-static').path.replace('app.asar', 'app.asar.unpacked'));
 
 let mainWindow;
+let folderPath;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -28,22 +29,28 @@ app.on('closed', () => {
   app.quit();
 });
 
+ipcMain.on('folder:create', () => {
+  const timestamp = Date.now();
+  folderPath = app.getPath('downloads') + '/canvas-saver-renders/' + timestamp;
+  if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath);
+});
+
 ipcMain.on('image:save', (event, data) => {
-  const { dataURL, filePath } = data;
+  const { dataURL, fileName } = data;
   const base64Data = dataURL.replace(/^data:image\/png;base64,/, "");
-  fs.writeFile(filePath, base64Data, 'base64', function (err) {
+  fs.writeFile(folderPath + '/' + fileName, base64Data, 'base64', function (err) {
       if (err) return console.log('error: ' + err);
-      console.log(`saving image... ${filePath}`);
+      console.log(`saving image... ${fileName}`);
   });
 });
 
-ipcMain.on('video:save', (event, { filePath, fRate }) => {
+ipcMain.on('video:save', (event, { fRate }) => {
   try {
-    const { ext, name, dir } = path.parse(filePath);
-    const input = `${dir}/%d.png`;
+    const input = `${folderPath}/%d.png`;
     const proc = ffmpeg(input)
       .inputOptions([`-r ${fRate}`])
       .format('mp4')
+      .videoCodec('libx264')
       .videoBitrate('6000k')
       .size('100%')
       .on('end', () => {
@@ -58,7 +65,7 @@ ipcMain.on('video:save', (event, { filePath, fRate }) => {
         console.log(`saving video... ${frames} frames converted.`)
         mainWindow.webContents.send('video:progress', frames);
       })
-      .save(`${dir}/video-converted.mp4`);
+      .save(`${folderPath}/video-converted.mp4`);
   } catch (err) {
     console.log(err);
   }
