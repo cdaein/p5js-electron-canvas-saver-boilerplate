@@ -18,9 +18,7 @@
 1. install node for your system. The simplest way is to go to [https://nodejs.org](https://nodejs.org) and download/install the package.
 1. open Terminal app.
 1. Change directory to the downloaded folder. If you have downloaded to desktop,  
-  ```
-  cd desktop/p5js-electron-canvas-saver-boilerplate
-  ```
+  `cd desktop/p5js-electron-canvas-saver-boilerplate`
 1. install dependencies  
   ```
   npm install
