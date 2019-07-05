@@ -3,6 +3,7 @@ const { ipcRenderer } = electron;
 
 let canvas;
 let saveButton;
+let statusMsg;
 let saveSeq = false;
 let startFrame;
 const fRate = 30; // set framerate for sketch and video
@@ -14,6 +15,8 @@ function setup() {
   saveButton = createButton('start recording');
   saveButton.position(10, 10);
   saveButton.mousePressed(toggleSaving);
+  statusMsg = createP('');
+  statusMsg.position(110, 0);
 
   background(200, 100, 100);
 }
@@ -41,6 +44,7 @@ function toggleSaving() {
   startFrame = frameCount;
   if (saveSeq) {
     saveButton.html('stop recording');
+    statusMsg.html('');
     ipcRenderer.send('folder:create'); // tell Electron to create a folder
   } else {
     saveButton.html('start recording');
@@ -50,8 +54,12 @@ function toggleSaving() {
 
 // Electron lets p5 sketch know how conversion is going
 ipcRenderer.on('video:progress', (event, frames) => {
-  console.log(`saving video... ${frames} frames converted`);
+  const msg = `saving video... ${frames} frames converted`;
+  statusMsg.html(msg);
+  console.log(msg);
 });
 ipcRenderer.on('video:end', (event) => {
-  console.log('video conversion finished');
+  const msg = 'video conversion finished';
+  statusMsg.html(msg);
+  console.log(msg);
 });

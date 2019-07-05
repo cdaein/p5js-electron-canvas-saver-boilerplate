@@ -31,8 +31,10 @@ app.on('closed', () => {
 // create a new folder for storing image/video files
 ipcMain.on('folder:create', () => {
   const timestamp = Date.now();
-  folderPath = app.getPath('downloads') + '/canvas-saver-renders/' + timestamp;
-  if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath);
+  folderPath = app.getPath('downloads') + `/canvas-saver-renders/${timestamp}`;
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath, {recursive: true});
+  }
 });
 
 // write image files with data received from p5 sketch
