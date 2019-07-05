@@ -49,6 +49,10 @@ ipcMain.on('image:save', (event, data) => {
 
 ipcMain.on('video:save', (event, { fRate }) => {
   try {
+    let numFrames;
+    fs.readdir(folderPath, (err, files) => {
+      numFrames = files.length;
+    });
     const input = `${folderPath}/%d.png`;
     const proc = ffmpeg(input)
       .inputOptions([`-r ${fRate}`])
@@ -65,8 +69,8 @@ ipcMain.on('video:save', (event, { fRate }) => {
         console.log(`error occured: ${err.message}`);
       })
       .on('progress', ({ frames }) => {
-        console.log(`saving video... ${frames} frames converted.`)
-        mainWindow.webContents.send('video:progress', frames);
+        console.log(`saving video... ${frames}/${numFrames} frames converted.`)
+        mainWindow.webContents.send('video:progress', {frames, numFrames});
       })
       .save(`${folderPath}/video-converted.mp4`);
   } catch (err) {

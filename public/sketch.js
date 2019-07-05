@@ -42,6 +42,7 @@ function sendCanvasDataToElectron() {
 function toggleSaving() {
   saveSeq = !saveSeq;
   startFrame = frameCount;
+  saveButton.toggleClass('recording');
   if (saveSeq) {
     saveButton.html('stop recording');
     statusMsg.html('');
@@ -53,8 +54,8 @@ function toggleSaving() {
 }
 
 // Electron lets p5 sketch know how conversion is going
-ipcRenderer.on('video:progress', (event, frames) => {
-  const msg = `saving video... ${frames} frames converted`;
+ipcRenderer.on('video:progress', (event, {frames, numFrames}) => {
+  const msg = `saving video... ${frames}/${numFrames} frames converted`;
   statusMsg.html(msg);
   console.log(msg);
 });
