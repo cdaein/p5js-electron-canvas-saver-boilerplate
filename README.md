@@ -3,7 +3,7 @@
 *This is the first app I made using Node or Electron, so if you have any suggestions or comments, please let me know.*
 
 ## What it tries to do
-- It gets around p5js' limitation of saving up to 15 frames. (see [here](http://p5js.org/reference/#/p5/saveFrames))
+- Save unlimited number of frames from your p5js sketch. (p5 by default can save up to 15 frames. see [here](http://p5js.org/reference/#/p5/saveFrames))
 - Export image sequence and video files in a single app.
   - No need to use screen capture software. (No frame rate drops)
   - No need to use video editing software.
