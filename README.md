@@ -37,12 +37,12 @@ Refer to fluent-ffmpeg [documentation](https://github.com/fluent-ffmpeg/node-flu
 - tested only on Mac.
 - If you want to use ffmpeg-included app commercially, be sure to check out their licensing terms.
 
-## dependencies
+## Dependencies
 - [p5js](http://p5js.org)
 - [electron](http://electronjs.org)
 - [electron-builder](https://github.com/electron-userland/electron-builder)
 - [fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg)
 - [ffmpeg-static](https://github.com/eugeneware/ffmpeg-static): Mac binary comes from [here](https://evermeet.cx/pub/ffmpeg/)
 
-## license
+## License
 MIT
