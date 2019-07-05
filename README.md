@@ -23,7 +23,7 @@
   `npm install`
 1. run it  
   `npm run electron`
-1. You can write p5js code as usual inside `public/sketch.js`.
+1. You can write p5js code as usual inside `public/sketch.js`. Take a look at comments in `index.js` as well.
 1. All the Chrome keyboard shortcuts work. Refresh by `Cmd+R`, toggle console by `Cmd+Opt+I`.
 1. When you press `start recording` button, it will start recording PNG images, and when you press the button again, it will stop saving images and start converting the images to video file. You can check the progress from the browser console (or Terminal).
 1. When you are done and want to package as app  
