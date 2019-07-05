@@ -12,7 +12,7 @@
 - Once packaged, no need to use command line at all.
 
 ## How to use
-*If you are more of a visual person, then check out my youtube video explaining how to use.*
+<!-- *If you are more of a visual person, then check out my youtube video explaining how to use.* -->
 
 1. download or clone this repo.
 1. install node for your system. The simplest way is to go to [https://nodejs.org](https://nodejs.org) and download/install the package.
