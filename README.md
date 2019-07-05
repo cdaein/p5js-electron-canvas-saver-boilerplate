@@ -1,6 +1,6 @@
 # p5js-electron-canvas-saver-boilerplate
 
-*This is the first app I made using Node or Electron, so if you have any suggestions or comments, please let me know.*
+*I tried to make it so that even if you have never used Node/Electron, you should be able to use this boilerplate. This is the first app I made using Node or Electron, so if you have any suggestions or comments, please let me know.*
 
 ## What it tries to do
 - Save unlimited number of frames from your p5js sketch. (p5 by default can save up to 15 frames. see [here](http://p5js.org/reference/#/p5/saveFrames))
