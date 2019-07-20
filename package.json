@@ -1,6 +1,6 @@
 {
   "name": "p5js-electron-canvas-saver-boilerplate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An Electron template to help save p5js canvas to image sequence and video files.",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "author": "Dae In Chung",
   "license": "MIT",
   "dependencies": {
+    "electron-reload": "^1.4.0",
     "ffmpeg-static": "^2.4.0",
     "fluent-ffmpeg": "^2.1.2"
   },

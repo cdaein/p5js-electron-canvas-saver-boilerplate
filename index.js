@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain, shell } = electron;
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 ffmpeg.setFfmpegPath(require('ffmpeg-static').path.replace('app.asar', 'app.asar.unpacked'));
+require('electron-reload')(__dirname);
 
 let mainWindow;
 let folderPath;
