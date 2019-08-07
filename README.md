@@ -1,5 +1,7 @@
 # p5js-electron-canvas-saver-boilerplate
 
+![animated gif](video.gif)
+
 *I tried to make it so that even if you have never used Node/Electron, you should be able to use this boilerplate. This is the first app I made using Node or Electron, so if you have any suggestions or comments, please let me know.*
 
 ## What it tries to do
