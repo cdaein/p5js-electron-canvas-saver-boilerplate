@@ -13,6 +13,10 @@
 - Ffmpeg is included as static binary. No need to install separately. A downside is that each project will have its own binary file which makes the whole project significantly bigger.
 - Once packaged, no need to use command line at all.
 
+## What is is not so good at
+- Recording *demonstration* video - it only records what's on HTML5 canvas, so any sliders on HTML DOM won't be recorded.
+- Real time interaction - the frame rate may drop while recording depending on the complexity of your sketch. 
+
 ## How to use
 <!-- *If you are more of a visual person, then check out my youtube video explaining how to use.* -->
 
