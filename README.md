@@ -7,7 +7,7 @@
 ## What it tries to do
 - Save unlimited number of frames from your p5js sketch. (p5 by default can save up to 15 frames. see [here](http://p5js.org/reference/#/p5/saveFrames))
 - Export image sequence and video files in a single app.
-  - No need to use screen capture software. (No frame rate drops)
+  - No need to use screen capture software. (No frame drops)
   - No need to use video editing software.
 - It uses ffmpeg for video encoding which adds a lot of customizability.
 - Ffmpeg is included as static binary. No need to install separately. A downside is that each project will have its own binary file which makes the whole project significantly bigger.
