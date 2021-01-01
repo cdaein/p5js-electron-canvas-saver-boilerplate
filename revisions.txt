@@ -1,3 +1,6 @@
+1.1.2
+- solved: quicktime can't play video.
+
 1.1.1
 - npm update
 
