@@ -57,6 +57,7 @@ ipcMain.on('video:save', (event, { fRate }) => {
     const input = `${folderPath}/%d.png`;
     const proc = ffmpeg(input)
       .inputOptions([`-r ${fRate}`])
+      .outputOptions('-pix_fmt yuv420p')
       .format('mp4')
       .videoCodec('libx264')
       .videoBitrate('6000k')
