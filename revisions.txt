@@ -1,3 +1,6 @@
+2.1.0
+- updated p5 v1.4.1
+
 2.0.0
 - updated to use Electron.js v17.0.0
 - introduced preload.js script for more secure communication

@@ -1,5 +1,3 @@
-// const { ipcRenderer } = require("electron");
-
 let canvas;
 let saveButton;
 let statusMsg;
