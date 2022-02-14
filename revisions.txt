@@ -1,3 +1,8 @@
+2.0.0
+- updated to use Electron.js v17.0.0
+- introduced preload.js script for more secure communication
+- some existing features are not yet implemented in this version such as displaying progress info on the html.
+
 1.1.2
 - solved: quicktime can't play video.
 

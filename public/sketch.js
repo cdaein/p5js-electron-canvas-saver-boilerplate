@@ -1,5 +1,4 @@
-const electron = require('electron');
-const { ipcRenderer } = electron;
+// const { ipcRenderer } = require("electron");
 
 let canvas;
 let saveButton;
@@ -12,10 +11,10 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   frameRate(fRate);
 
-  saveButton = createButton('start recording');
+  saveButton = createButton("start recording");
   saveButton.position(10, 10);
   saveButton.mousePressed(toggleSaving);
-  statusMsg = createP('');
+  statusMsg = createP("");
   statusMsg.position(110, 0);
 
   background(200, 100, 100);
@@ -23,8 +22,13 @@ function setup() {
 
 function draw() {
   noStroke();
-  fill(noise(frameCount/30)*255);
-  ellipse(width/2 + sin(frameCount/60)*width/3, noise(frameCount/60)*height, 20, 20);
+  fill(noise(frameCount / 30) * 255);
+  ellipse(
+    width / 2 + (sin(frameCount / 60) * width) / 3,
+    noise(frameCount / 60) * height,
+    20,
+    20
+  );
 
   if (saveSeq) {
     sendCanvasDataToElectron();
@@ -32,35 +36,35 @@ function draw() {
 }
 
 function sendCanvasDataToElectron() {
-  const dataURL = canvas.elt.toDataURL('image/png');
-  const fileName = (frameCount-startFrame) + '.png';
+  const dataURL = canvas.elt.toDataURL("image/png");
+  const fileName = frameCount - startFrame + ".png";
   const data = { dataURL, fileName };
-  ipcRenderer.send('image:save', data);
+  window.electron.imageSave(data);
   console.log(`saving image... ${fileName}`);
 }
 
 function toggleSaving() {
   saveSeq = !saveSeq;
   startFrame = frameCount;
-  saveButton.toggleClass('recording');
+  saveButton.toggleClass("recording");
   if (saveSeq) {
-    saveButton.html('stop recording');
-    statusMsg.html('');
-    ipcRenderer.send('folder:create'); // tell Electron to create a folder
+    saveButton.html("stop recording");
+    statusMsg.html("");
+    window.electron.folderCreate(); // tell Electron to create a folder
   } else {
-    saveButton.html('start recording');
-    ipcRenderer.send('video:save', { fRate }); // tell Electron to start video conversion once images are ready.
+    saveButton.html("start recording");
+    window.electron.videoSave(fRate); // tell Electron to start video conversion once images are ready.
   }
 }
 
-// Electron lets p5 sketch know how conversion is going
-ipcRenderer.on('video:progress', (event, {frames, numFrames}) => {
-  const msg = `saving video... ${frames}/${numFrames} frames converted`;
-  statusMsg.html(msg);
-  console.log(msg);
-});
-ipcRenderer.on('video:end', (event) => {
-  const msg = 'video conversion finished';
-  statusMsg.html(msg);
-  console.log(msg);
-});
+// // Electron lets p5 sketch know how conversion is going
+// ipcRenderer.on("video:progress", (event, { frames, numFrames }) => {
+//   const msg = `saving video... ${frames}/${numFrames} frames converted`;
+//   statusMsg.html(msg);
+//   console.log(msg);
+// });
+// ipcRenderer.on("video:end", (event) => {
+//   const msg = "video conversion finished";
+//   statusMsg.html(msg);
+//   console.log(msg);
+// });
