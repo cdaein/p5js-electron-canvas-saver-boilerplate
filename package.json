@@ -1,6 +1,6 @@
 {
   "name": "p5js-electron-canvas-saver-boilerplate",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "An Electron template to help save p5js canvas to image sequence and video files.",
   "main": "index.js",
   "scripts": {
