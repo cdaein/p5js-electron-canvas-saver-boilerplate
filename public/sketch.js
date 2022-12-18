@@ -55,7 +55,7 @@ function toggleSaving() {
   }
 }
 
-// // Electron lets p5 sketch know how conversion is going
+// Electron lets p5 sketch know how conversion is going
 // ipcRenderer.on("video:progress", (event, { frames, numFrames }) => {
 //   const msg = `saving video... ${frames}/${numFrames} frames converted`;
 //   statusMsg.html(msg);

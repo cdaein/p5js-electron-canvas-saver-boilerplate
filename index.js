@@ -41,7 +41,6 @@ const addZero = (n) => (n < 10 ? `0${n}` : `${n}`);
 
 // create a new folder for storing image/video files
 ipcMain.on("folder:create", () => {
-  // const timestamp = Date.now();
   const timestamp = new Date();
   const timestampFormatted =
     timestamp.getFullYear() +
