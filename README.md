@@ -46,6 +46,7 @@ Refer to fluent-ffmpeg [documentation](https://github.com/fluent-ffmpeg/node-flu
 
 ## Limitations
 
+- `p5.js` library is loaded from CDN - if you need to load from a local file, include the `p5.js` (or any other library files) in `public` folder and link it in `public/index.html`
 - tested only on Mac.
 - If you want to use ffmpeg-included app commercially, be sure to check out their licensing terms.
 
