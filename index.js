@@ -9,6 +9,7 @@ require("electron-reload")(__dirname);
 
 let mainWindow;
 let folderPath;
+let imagesPath;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -36,12 +37,31 @@ app.on("closed", () => {
   app.quit();
 });
 
+const addZero = (n) => (n < 10 ? `0${n}` : `${n}`);
+
 // create a new folder for storing image/video files
 ipcMain.on("folder:create", () => {
-  const timestamp = Date.now();
-  folderPath = app.getPath("downloads") + `/canvas-saver-renders/${timestamp}`;
+  // const timestamp = Date.now();
+  const timestamp = new Date();
+  const timestampFormatted =
+    timestamp.getFullYear() +
+    "." +
+    addZero(timestamp.getMonth() + 1) +
+    "." +
+    addZero(timestamp.getDate()) +
+    "-" +
+    addZero(timestamp.getHours()) +
+    "." +
+    addZero(timestamp.getMinutes()) +
+    "." +
+    addZero(timestamp.getSeconds());
+
+  folderPath =
+    app.getPath("downloads") + `/canvas-saver-renders/${timestampFormatted}`;
+  imagesPath = folderPath + `/images`;
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath, { recursive: true });
+    fs.mkdirSync(imagesPath, { recursive: true });
   }
 });
 
@@ -50,7 +70,7 @@ ipcMain.on("image:save", (event, data) => {
   const { dataURL, fileName } = data;
   const base64Data = dataURL.replace(/^data:image\/png;base64,/, "");
   fs.writeFile(
-    folderPath + "/" + fileName,
+    imagesPath + "/" + fileName,
     base64Data,
     "base64",
     function (err) {
@@ -63,10 +83,10 @@ ipcMain.on("image:save", (event, data) => {
 ipcMain.on("video:save", (event, { fRate }) => {
   try {
     let numFrames;
-    fs.readdir(folderPath, (err, files) => {
+    fs.readdir(imagesPath, (err, files) => {
       numFrames = files.length;
     });
-    const input = `${folderPath}/%d.png`;
+    const input = `${imagesPath}/%d.png`;
     const proc = ffmpeg(input)
       .inputOptions([`-r ${fRate}`])
       .outputOptions("-pix_fmt yuv420p")
